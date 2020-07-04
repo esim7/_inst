@@ -58,6 +58,9 @@ namespace Infrastructure.EntityFramework.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("LikeCount")
                         .HasColumnType("int");
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Domain.Model;
+using Infrastructure.Database.EFImplementations;
+using Infrastructure.Database.Interfaces;
 using Infrastructure.EntityFramework;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +37,13 @@ namespace _inst
 
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddScoped<IRepository<Post>, PostsRepository>();
+            services.AddScoped<IRepository<Comment>, CommentsRepository>();
+            services.AddScoped<IUnitOfWork, EFUnitOfWork>();
+
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -64,7 +74,7 @@ namespace _inst
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Posts}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

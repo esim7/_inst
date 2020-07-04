@@ -162,6 +162,7 @@ namespace Infrastructure.EntityFramework.Migrations
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LikeCount = table.Column<int>(nullable: false),
                     CommentCount = table.Column<int>(nullable: false),
+                    Data = table.Column<string>(nullable: true),
                     PhotoPath = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },

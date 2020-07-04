@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200704060707_Example")]
+    [Migration("20200704142809_Example")]
     partial class Example
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,9 @@ namespace Infrastructure.EntityFramework.Migrations
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LikeCount")
                         .HasColumnType("int");
