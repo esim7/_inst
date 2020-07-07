@@ -5,110 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.LikeCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CommentCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhotoPath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LikeCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CommentCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhotoPath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
-<style>
-    .row
-    {
-        text-align: -webkit-center;
-    }
-    .icon {
-        text-align: justify
-    }
-    .comment 
-    {
-        font-size: 10px;
-    }
-    .like-count {
-        font-size: 12px;
-        font-weight: bolder;
-    }
-    .like:hover 
-    {
-        color: red;
-    }
-</style>
-
-<div class="container">
-    <div class="row cards">
-        @foreach (var item in Model)
-        {
-            <div class="col-sm-12 mb-4">
-                <div class="post-item card" style="width: 18rem;" id="@item.Id">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">@item.Data</p>
-                    </div>
-                    <div class="icon card-body">
-                        <i class="like far fa-heart card-text"></i>
-                        <p class="like-count mb-3">Нравится: @item.LikeCount</p>
-                        <a class="comment" asp-action="Create">Просмотреть все комментарии (@item.CommentCount)</a>
-                    </div>
-                    @if (item.UserId == ViewBag.UserId)
-                    {
-                        <div class="card-footer">
-                            <a class="mr-4" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
+    <div id="posts">
+        
     </div>
-</div>
-
 
 @section scripts
 {
     <script>
+
+        function showPosts() {
+            $.ajax({
+                type: "GET",
+                url: "/Posts/GetPosts",
+                success: function(res) {
+                    $("#posts").html(res);
+                }
+            });
+        }
+
+        showPosts();
 
         function onLikeHandler(id) {
             var url = '@Url.Action("AddLike", "Posts")?id=' + id;
@@ -116,7 +31,10 @@
                 type: "GET",
                 url: url,
                 success: function(res) {
-                    console.log(url);
+                    showPosts();
+                },
+                error: function (res) {
+                    alert("Error");
                 }
             });
         }
@@ -125,12 +43,9 @@
             if (e.target.classList.contains('like')) {
                 var parent = e.target.closest(".post-item");
                 onLikeHandler(parent.id);
-
             }
         }
-
-        
-        var cardRow = document.querySelector(".cards").addEventListener("click", likeThisPostHandler);
+        var cardRow = document.querySelector("#posts").addEventListener("click", likeThisPostHandler);
 
     </script>
 }

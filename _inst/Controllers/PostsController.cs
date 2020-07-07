@@ -159,6 +159,14 @@ namespace _inst.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> GetPosts()
+        {
+            var posts = await _uow.PostRepository.GetAllAsync();
+            var viewModel = _map.Map<IList<PostIndexViewModel>>(posts);
+            return PartialView(viewModel);
+        }
+
+
         private bool PostExists(int id)
         {
             return _uow.PostRepository.Exist(id);

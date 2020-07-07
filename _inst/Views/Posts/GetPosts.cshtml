@@ -1,0 +1,53 @@
+﻿@model IEnumerable<_inst.Models.Post.PostIndexViewModel>
+
+<style>
+    .row {
+        text-align: -webkit-center;
+    }
+
+    .icon {
+        text-align: justify
+    }
+
+    .comment {
+        font-size: 10px;
+    }
+
+    .like-count {
+        font-size: 12px;
+        font-weight: bolder;
+    }
+
+    .like:hover {
+        color: red;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row cards">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-12 mb-4">
+                <div class="post-item card" style="width: 18rem;" id="@item.Id">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">@item.Data</p>
+                    </div>
+                    <div class="icon card-body">
+                        <i class="like far fa-heart card-text" id="set-like"></i>
+                        <p class="like-count mb-3">Нравится: @item.LikeCount</p>
+                        <a class="comment" asp-action="Create">Просмотреть все комментарии (@item.CommentCount)</a>
+                    </div>
+                    @if (item.UserId == ViewBag.UserId)
+                    {
+                        <div class="card-footer">
+                            <a class="mr-4" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
