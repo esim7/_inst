@@ -23,6 +23,11 @@ namespace Infrastructure.Database.EFImplementations
             return _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public Task<List<Comment>> GetAllByPostIdAsync(int id)
+        {
+            return _context.Comments.Where(c => c.PostId == id).ToListAsync();
+        }
+
         public Task<List<Comment>> GetAllAsync()
         {
             return _context.Comments.ToListAsync();

@@ -1,54 +1,22 @@
-﻿@model IEnumerable<Domain.Model.Comment>
+﻿@model IEnumerable<_inst.Models.Comment.CommentIndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Коментарии</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Text)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CommentAuthor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Post)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CommentAuthor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Post.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container-sm">
+    @foreach (var item in Model)
+    {
+        <div class="alert alert-secondary" role="alert">
+            <strong>@item.CommentAuthor</strong> @item.Text <br/>
+            <small>@item.CreationDate</small>
+        </div>
+    }
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Posts">Вернуться назад</a>
+</div>

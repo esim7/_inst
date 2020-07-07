@@ -10,6 +10,7 @@ namespace Infrastructure.Database.Interfaces
         Task<List<T>> GetAllAsync();
         ValueTask<EntityEntry<T>> CreateAsync(T entity);
         ValueTask<T> EditAsync(T entity);
+        Task<List<T>> GetAllByPostIdAsync(int id);
         void Remove(T entity);
         bool Exist(int id);
     }

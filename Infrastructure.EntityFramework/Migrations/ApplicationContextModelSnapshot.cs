@@ -21,7 +21,7 @@ namespace Infrastructure.EntityFramework.Migrations
 
             modelBuilder.Entity("Domain.Model.Comment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -32,7 +32,7 @@ namespace Infrastructure.EntityFramework.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PostId")
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -47,7 +47,7 @@ namespace Infrastructure.EntityFramework.Migrations
 
             modelBuilder.Entity("Domain.Model.Post", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -283,8 +283,10 @@ namespace Infrastructure.EntityFramework.Migrations
             modelBuilder.Entity("Domain.Model.Comment", b =>
                 {
                     b.HasOne("Domain.Model.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Model.Post", b =>

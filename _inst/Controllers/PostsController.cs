@@ -121,7 +121,6 @@ namespace _inst.Controllers
             return View(postEditViewModel);
         }
 
-        // GET: Posts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,13 +165,6 @@ namespace _inst.Controllers
 
             return PartialView(viewModel);
         }
-
-        //public async Task<IActionResult> GetComments(int id)
-        //{
-        //    var poscts = await _uow.PostRepository.GetAllAsync();
-        //    var viewModel = _map.Map<IList<PostIndexViewModel>>(posts);
-        //    return PartialView(viewModel);
-        //}
 
         private bool PostExists(int id)
         {

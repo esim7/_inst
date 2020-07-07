@@ -26,6 +26,7 @@ namespace Infrastructure.Database.EFImplementations
         public Task<List<Post>> GetAllAsync()
         {
             return _context.Posts.Include(c => c.Comments).ToListAsync();
+            //return _context.Posts.ToListAsync();
         }
 
         public ValueTask<EntityEntry<Post>> CreateAsync(Post entity)
@@ -44,6 +45,11 @@ namespace Infrastructure.Database.EFImplementations
                 post.Result.PhotoPath = entity.PhotoPath;
             }
             return post;
+        }
+
+        public Task<List<Post>> GetAllByPostIdAsync(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Remove(Post entity)

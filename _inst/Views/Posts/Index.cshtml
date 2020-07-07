@@ -26,12 +26,13 @@
 
         showPosts();
 
-        function onLikeHandler(id) {
+        function onLikeHandler(id, e) {
             var url = '@Url.Action("AddLike", "Posts")?id=' + id;
+            
             $.ajax({
                 type: "GET",
                 url: url,
-                success: function(res) {
+                success: function (res) {
                     showPosts();
                 },
                 error: function (res) {
@@ -44,6 +45,7 @@
             if (e.target.classList.contains('like')) {
                 var parent = e.target.closest(".post-item");
                 onLikeHandler(parent.id);
+                
             }
         }
         var cardRow = document.querySelector("#posts").addEventListener("click", likeThisPostHandler);

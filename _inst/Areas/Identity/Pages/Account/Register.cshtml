@@ -1,17 +1,22 @@
 ﻿@page
 @model RegisterModel
-@{
+@*@{
     ViewData["Title"] = "Register";
-}
+}*@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Name"></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
@@ -60,6 +65,42 @@
             }
         </section>
     </div>
+</div>*@
+
+
+<style>
+    body 
+    { 
+        background: url("https://img1.akspic.ru/image/124040-socialnaya_set-instagram-kamera-video-logo-1920x1080.jpg"); 
+        background-size: cover; 
+        background-repeat: no-repeat; height: 100%; 
+    }
+</style>
+
+<div class="container ">
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="justify-content-center">
+        <div class="form-row justify-content-center">
+            <div class="col-sm-2 my-1">
+                <input asp-for="Input.Name" class="form-control form-control-sm" placeholder="Имя" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 my-1">
+                <input asp-for="Input.Email" class="form-control form-control-sm" placeholder="Почтовый адресс" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 my-1">
+                <input asp-for="Input.Password" class="form-control form-control-sm" placeholder="Пароль" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 my-1">
+                <input asp-for="Input.ConfirmPassword" class="form-control form-control-sm" placeholder="Повторите пароль"/>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary btn-sm">Регистрация</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

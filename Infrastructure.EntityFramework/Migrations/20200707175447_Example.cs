@@ -186,7 +186,7 @@ namespace Infrastructure.EntityFramework.Migrations
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true),
                     CommentAuthor = table.Column<string>(nullable: true),
-                    PostId = table.Column<int>(nullable: true)
+                    PostId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,7 +196,7 @@ namespace Infrastructure.EntityFramework.Migrations
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -11,6 +11,9 @@ namespace _inst.MapperProfile
         {
             CreateMap<Comment, CommentCreateViewModel>();
             CreateMap<CommentCreateViewModel, Comment>();
+
+            CreateMap<Comment, CommentIndexViewModel>();
+            CreateMap<CommentIndexViewModel, Comment>();
         }
     }
 }

@@ -27,11 +27,12 @@ namespace _inst.Controllers
         }
 
         // GET: Comments
-        //public async Task<IActionResult> Index(int id)
-        //{
-        //    var applicationContext = _uow.CommentRepository.GetAsync(id);
-        //    return View(await applicationContext.ToListAsync());
-        //}
+        public async Task<IActionResult> Index(int id)
+        {
+            var comments = await _uow.CommentRepository.GetAllByPostIdAsync(id);
+            var viewModel = _map.Map<IList<CommentIndexViewModel>>(comments);
+            return View(viewModel);
+        }
 
         //// GET: Comments/Details/5
         //public async Task<IActionResult> Details(int? id)
