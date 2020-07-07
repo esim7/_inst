@@ -31,6 +31,9 @@ namespace _inst.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var user = _userManager.Users.FirstOrDefault(u => u.Email == HttpContext.User.Identity.Name);
+            ViewBag.UserId = user.Id;
+
             var posts = await _uow.PostRepository.GetAllAsync();
             var viewModel = _map.Map<IList<PostIndexViewModel>>(posts);
             return View(viewModel);
@@ -143,6 +146,15 @@ namespace _inst.Controllers
         {
             var post = await _uow.PostRepository.GetAsync(id);
             _uow.PostRepository.Remove(post);
+            await _uow.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddLike(int id)
+        {
+            var post = await _uow.PostRepository.GetAsync(id);
+            post.LikeCount += 1;
             await _uow.Save();
             return RedirectToAction(nameof(Index));
         }
