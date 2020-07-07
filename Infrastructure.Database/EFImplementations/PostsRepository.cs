@@ -25,7 +25,7 @@ namespace Infrastructure.Database.EFImplementations
 
         public Task<List<Post>> GetAllAsync()
         {
-            return _context.Posts.ToListAsync();
+            return _context.Posts.Include(c => c.Comments).ToListAsync();
         }
 
         public ValueTask<EntityEntry<Post>> CreateAsync(Post entity)

@@ -37,7 +37,8 @@
                     <div class="icon card-body">
                         <i class="like far fa-heart card-text" id="set-like"></i>
                         <p class="like-count mb-3">Нравится: @item.LikeCount</p>
-                        <a class="comment" asp-action="Create">Просмотреть все комментарии (@item.CommentCount)</a>
+                        @*Передаю id поста для для создания коментария для этого поста*@ 
+                        <a class="comment" asp-controller="Comments" asp-action="Create" asp-route-id="@item.Id">Написать комментарий (@item.Comments.Count)</a>
                     </div>
                     @if (item.UserId == ViewBag.UserId)
                     {

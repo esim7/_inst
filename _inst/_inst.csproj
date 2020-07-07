@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Folder Include="images\" />
-    <Folder Include="MapperProfile\" />
+    <Folder Include="Models\Comment\" />
   </ItemGroup>
 
 </Project>

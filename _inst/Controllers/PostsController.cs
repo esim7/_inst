@@ -31,9 +31,6 @@ namespace _inst.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = _userManager.Users.FirstOrDefault(u => u.Email == HttpContext.User.Identity.Name);
-            ViewBag.UserId = user.Id;
-
             var posts = await _uow.PostRepository.GetAllAsync();
             var viewModel = _map.Map<IList<PostIndexViewModel>>(posts);
             return View(viewModel);
@@ -163,9 +160,19 @@ namespace _inst.Controllers
         {
             var posts = await _uow.PostRepository.GetAllAsync();
             var viewModel = _map.Map<IList<PostIndexViewModel>>(posts);
+
+            var user = _userManager.Users.FirstOrDefault(u => u.Email == HttpContext.User.Identity.Name);
+            ViewBag.UserId = user?.Id;
+
             return PartialView(viewModel);
         }
 
+        //public async Task<IActionResult> GetComments(int id)
+        //{
+        //    var poscts = await _uow.PostRepository.GetAllAsync();
+        //    var viewModel = _map.Map<IList<PostIndexViewModel>>(posts);
+        //    return PartialView(viewModel);
+        //}
 
         private bool PostExists(int id)
         {
