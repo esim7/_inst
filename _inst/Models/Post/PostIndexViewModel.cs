@@ -14,6 +14,7 @@ namespace _inst.Models.Post
         public string PhotoPath { get; set; }
         public string Data { get; set; }
 
+        public User User { get; set; }
         public string UserId { get; set; }
     }
 }

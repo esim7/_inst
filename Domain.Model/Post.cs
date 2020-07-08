@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.Model
 {
@@ -7,7 +8,7 @@ namespace Domain.Model
         public int LikeCount { get; set; }
         public int CommentCount { get; set; }
         public string Data { get; set; }
-        public string PhotoPath { get; set; }
+        public string PhotoPath { get; set; } 
         public ICollection<Comment> Comments { get; set; }
 
         public string UserId { get; set; }

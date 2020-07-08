@@ -26,18 +26,21 @@
 
 <div class="container">
     <div class="row cards">
-        @foreach (var item in Model)
+        @foreach (var item in Model.Reverse()) // Проход цикла в обратном порядке, чтобы последние посты рисовались выше
         {
             <div class="col-sm-12 mb-4">
                 <div class="post-item card" style="width: 18rem;" id="@item.Id">
-                    <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
-                        <p class="card-text">@item.Data</p>
+                        <strong class="float-left">@item.User.Name</strong>
+                    </div>
+                    <img src="@item.PhotoPath" class="card-img-top">
+                    <div class="card-body">
+                        <p class="float-left">@item.Data</p>
                     </div>
                     <div class="icon card-body">
                         <i class="like far fa-heart card-text" id="set-like"></i>
                         <p class="like-count mb-3">Нравится: @item.LikeCount</p>
-                        @*Передаю id поста для для создания коментария для этого поста*@ 
+                        @*Передаю id поста для для создания коментария для этого поста*@
                         <a class="comment" asp-controller="Comments" asp-action="Create" asp-route-id="@item.Id"><i class="far fa-comment" title="Написать коммент пользователю"></i></a>
                         <a class="comment" asp-controller="Comments" asp-action="Index" asp-route-id="@item.Id">Все комментарии (@item.Comments.Count)</a>
                     </div>
