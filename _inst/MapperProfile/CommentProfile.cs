@@ -10,7 +10,7 @@ namespace _inst.MapperProfile
         public CommentProfile()
         {
             CreateMap<Comment, CommentCreateViewModel>();
-            CreateMap<CommentCreateViewModel, Comment>();
+            CreateMap<CommentCreateViewModel, Comment>()/*.ForMember(x => x.Id, opt => opt.Ignore())*/; ;
 
             CreateMap<Comment, CommentIndexViewModel>();
             CreateMap<CommentIndexViewModel, Comment>();

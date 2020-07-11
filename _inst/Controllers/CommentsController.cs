@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _inst.Models.Comment;
+using _inst.Models.Post;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Model;
 using Infrastructure.Database.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace _inst.Controllers
 {
@@ -33,27 +35,39 @@ namespace _inst.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(int id, CommentCreateViewModel commentCreateViewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = _userManager.Users.FirstOrDefault(u => u.Email == HttpContext.User.Identity.Name);
+        //        commentCreateViewModel.PostId = id;
+        //        commentCreateViewModel.CommentAuthor = user?.Name;
+
+        //        var comment = _map.Map<Comment>(commentCreateViewModel);
+        //        await _uow.CommentRepository.CreateAsync(comment);
+        //        await _uow.Save();
+        //        return RedirectToAction("Index", "Posts");
+        //    }
+        //    return View(commentCreateViewModel);
+        //}
+     
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id, CommentCreateViewModel commentCreateViewModel)
+        public async Task<Comment> CreateComment(CommentCreateViewModel comment)
         {
-            if (ModelState.IsValid)
-            {
-                var user = _userManager.Users.FirstOrDefault(u => u.Email == HttpContext.User.Identity.Name);
-                commentCreateViewModel.PostId = id;
-                commentCreateViewModel.CommentAuthor = user?.Name;
+            var user = _userManager.Users.FirstOrDefault(u => u.Email == HttpContext.User.Identity.Name);
+            comment.CommentAuthor = user?.Name;
 
-                var comment = _map.Map<Comment>(commentCreateViewModel);
-                await _uow.CommentRepository.CreateAsync(comment);
-                await _uow.Save();
-                return RedirectToAction("Index", "Posts");
-            }
-            return View(commentCreateViewModel);
+            var newComment = _map.Map<Comment>(comment);
+            await _uow.CommentRepository.CreateAsync(newComment);
+            await _uow.Save();
+            return newComment;
         }
     }
 }

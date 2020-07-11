@@ -21,6 +21,10 @@
     .like:hover {
         color: red;
     }
+    #comment {
+        border: none;
+        outline: none;
+    }
 </style>
 
 
@@ -34,19 +38,28 @@
                         <strong class="float-left">@item.User.Name</strong>
                     </div>
                     <img src="@item.PhotoPath" class="card-img-top">
-                    <div class="card-body">
+                    <div class="mt-4 ml-3">
                         <p class="float-left">@item.Data</p>
                     </div>
-                    <div class="icon card-body">
+                    <div class="icon mt-2 ml-3">
                         <i class="like far fa-heart card-text" id="set-like"></i>
                         <p class="like-count mb-3">Нравится: @item.LikeCount</p>
                         @*Передаю id поста для для создания коментария для этого поста*@
-                        <a class="comment" asp-controller="Comments" asp-action="Create" asp-route-id="@item.Id"><i class="far fa-comment" title="Написать коммент пользователю"></i></a>
+                        @*<a class="comment" asp-controller="Comments" asp-action="Create" asp-route-id="@item.Id"><i class="far fa-comment" title="Написать коммент пользователю"></i></a>*@
                         <a class="comment" asp-controller="Comments" asp-action="Index" asp-route-id="@item.Id">Все комментарии (@item.Comments.Count)</a>
+                    </div>
+                    <div>
+                        <form class="form-inline" method="post">
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="comment" class="sr-only">Commentary</label>
+                                <input type="text" class="form-control-sm" id="comment" placeholder="Ваш комментарий" name="Text">
+                                <button type="submit" class="btn btn-sm btn-outline-success createPost">Сохранить</button>
+                            </div>
+                        </form>
                     </div>
                     @if (item.UserId == ViewBag.UserId)
                     {
-                        <div class="card-footer">
+                        <div class="card-footer mt-3">
                             <a class="mr-4" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
                             <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                         </div>

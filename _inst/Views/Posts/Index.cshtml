@@ -24,18 +24,39 @@
             });
         }
 
+        function onCreateCommentHandler(id) {
+
+            var text = document.querySelector('#comment').value;
+            var object = new Object();
+            object.Text = text;
+            object.PostId = id;
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Comments/CreateComment",
+                data: { comment:object },
+                success: function(result) {
+                    showPosts();
+                },
+                error: function() {
+                    alert("Ошибочка");
+                }
+            });
+        };
+
         showPosts();
 
         function onLikeHandler(id, e) {
             var url = '@Url.Action("AddLike", "Posts")?id=' + id;
-            
+
             $.ajax({
                 type: "GET",
                 url: url,
-                success: function (res) {
+                success: function(res) {
                     showPosts();
                 },
-                error: function (res) {
+                error: function(res) {
                     alert("Error");
                 }
             });
@@ -43,11 +64,17 @@
 
         likeThisPostHandler = (e) => {
             if (e.target.classList.contains('like')) {
+                e.preventDefault();
                 var parent = e.target.closest(".post-item");
                 onLikeHandler(parent.id);
-                
+            } else if (e.target.classList.contains('createPost')) {
+                e.preventDefault();
+                var parent = e.target.closest(".post-item");
+                onCreateCommentHandler(parent.id);
             }
         }
+
+
         var cardRow = document.querySelector("#posts").addEventListener("click", likeThisPostHandler);
 
     </script>

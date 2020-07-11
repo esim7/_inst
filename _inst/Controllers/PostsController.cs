@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using _inst.Models.Post;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Model;
 using Infrastructure.Database.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -21,12 +23,14 @@ namespace _inst.Controllers
         private readonly IUnitOfWork _uow;
         private readonly IMapper _map;
         private readonly UserManager<User> _userManager;
+        private readonly IWebHostEnvironment _environment;
 
-        public PostsController(IUnitOfWork uow, IMapper map, UserManager<User> userManager)
+        public PostsController(IUnitOfWork uow, IMapper map, UserManager<User> userManager, IWebHostEnvironment environment)
         {
             _uow = uow;
             _map = map;
             _userManager = userManager;
+            _environment = environment;
         }
 
         public async Task<IActionResult> Index()
@@ -57,19 +61,32 @@ namespace _inst.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PostCreateViewModel postCreateViewModel)
+        public async Task<IActionResult> Create(PostCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = _userManager.Users.FirstOrDefault(u => u.Email == HttpContext.User.Identity.Name);
-                postCreateViewModel.User = user;
-                var post = _map.Map<Post>(postCreateViewModel);
-                await _uow.PostRepository.CreateAsync(post);
+                var model = _map.Map<Post>(viewModel);
+                model.UserId = _userManager.GetUserId(HttpContext.User);
+
+                if (viewModel.Photo != null)
+                {
+                    var path = "/Files/" + viewModel.Photo.FileName;
+
+                    using (var fileStream = new FileStream(_environment.WebRootPath + path, FileMode.Create))
+                    {
+                        viewModel.Photo.CopyTo(fileStream);
+                    }
+
+                    model.PhotoPath = path;
+                }
+
+                var createdPost = await _uow.PostRepository.CreateAsync(model);
                 await _uow.Save();
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("Index");
             }
-            return View(postCreateViewModel);
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -147,12 +164,12 @@ namespace _inst.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddLike(int id)
+        public async Task<Post> AddLike(int id)
         {
             var post = await _uow.PostRepository.GetAsync(id);
             post.LikeCount += 1;
             await _uow.Save();
-            return RedirectToAction(nameof(Index));
+            return post;
         }
 
         public async Task<IActionResult> GetPosts()
