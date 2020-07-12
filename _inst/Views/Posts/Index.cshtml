@@ -13,7 +13,6 @@
 @section scripts
 {
     <script>
-
         function showPosts() {
             $.ajax({
                 type: "GET",
@@ -25,12 +24,10 @@
         }
 
         function onCreateCommentHandler(id) {
-
             var text = document.querySelector('#comment').value;
             var object = new Object();
             object.Text = text;
             object.PostId = id;
-
 
             $.ajax({
                 type: "POST",
@@ -44,12 +41,8 @@
                 }
             });
         };
-
-        showPosts();
-
         function onLikeHandler(id, e) {
             var url = '@Url.Action("AddLike", "Posts")?id=' + id;
-
             $.ajax({
                 type: "GET",
                 url: url,
@@ -74,8 +67,7 @@
             }
         }
 
-
+        showPosts();
         var cardRow = document.querySelector("#posts").addEventListener("click", likeThisPostHandler);
-
     </script>
 }
