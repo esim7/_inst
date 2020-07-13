@@ -167,7 +167,12 @@ namespace _inst.Controllers
         public async Task<Post> AddLike(int id)
         {
             var post = await _uow.PostRepository.GetAsync(id);
-            post.LikeCount += 1;
+            post.Likes.Add(new Like()
+            {
+                UserId = _userManager.GetUserId(HttpContext.User),
+                PostId = id
+            });
+
             await _uow.Save();
             return post;
         }

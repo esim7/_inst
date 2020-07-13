@@ -7,6 +7,7 @@ namespace Infrastructure.Database.Interfaces
     {
         IRepository<Post> PostRepository { get; set; }
         IRepository<Comment> CommentRepository { get; set; }
+        IRepository<Like> LikeRepository { get; set; }
 
 
         Task Save();

@@ -11,11 +11,13 @@ namespace Infrastructure.Database.EFImplementations
 
         public IRepository<Post> PostRepository { get; set; }
         public IRepository<Comment> CommentRepository { get; set; }
+        public IRepository<Like> LikeRepository { get; set; }
 
-        public EFUnitOfWork(IRepository<Post> postRepository, IRepository<Comment> commentRepository, ApplicationContext context)
+        public EFUnitOfWork(IRepository<Post> postRepository, IRepository<Comment> commentRepository, IRepository<Like> likeRepository, ApplicationContext context)
         {
             PostRepository = postRepository;
             CommentRepository = commentRepository;
+            LikeRepository = likeRepository;
             _context = context;
         }
 

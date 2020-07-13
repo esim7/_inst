@@ -13,7 +13,7 @@
 @section scripts
 {
     <script>
-        function showPosts() {
+        function showPosts(e) {
             $.ajax({
                 type: "GET",
                 url: "/Posts/GetPosts",
@@ -32,7 +32,7 @@
             $.ajax({
                 type: "POST",
                 url: "/Comments/CreateComment",
-                data: { comment:object },
+                data: { comment: object },
                 success: function(result) {
                     showPosts();
                 },
@@ -41,33 +41,37 @@
                 }
             });
         };
-        function onLikeHandler(id, e) {
-            var url = '@Url.Action("AddLike", "Posts")?id=' + id;
+
+        function onLikeHandler(id) {
+
+            var object = new Object();
+            object.PostId = id;
+
             $.ajax({
-                type: "GET",
-                url: url,
-                success: function(res) {
+                type: "POST",
+                url: "/Likes/AddLike",
+                data: { like: object },
+                success: function(result) {
                     showPosts();
                 },
-                error: function(res) {
-                    alert("Error");
+                error: function() {
+                    alert("Ошибочка");
                 }
             });
         }
 
-        likeThisPostHandler = (e) => {
+        actionHandler = (e) => {
+            e.preventDefault();
             if (e.target.classList.contains('like')) {
-                e.preventDefault();
                 var parent = e.target.closest(".post-item");
                 onLikeHandler(parent.id);
             } else if (e.target.classList.contains('createPost')) {
-                e.preventDefault();
                 var parent = e.target.closest(".post-item");
                 onCreateCommentHandler(parent.id);
             }
         }
 
         showPosts();
-        var cardRow = document.querySelector("#posts").addEventListener("click", likeThisPostHandler);
+        var cardRow = document.querySelector("#posts").addEventListener("click", actionHandler);
     </script>
 }

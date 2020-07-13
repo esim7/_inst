@@ -40,9 +40,11 @@ namespace _inst
 
             services.AddScoped<IRepository<Post>, PostsRepository>();
             services.AddScoped<IRepository<Comment>, CommentsRepository>();
+            services.AddScoped<IRepository<Like>, LikesRepository>();
             services.AddScoped<IUnitOfWork, EFUnitOfWork>();
 
             services.AddAutoMapper(typeof(Startup));
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();

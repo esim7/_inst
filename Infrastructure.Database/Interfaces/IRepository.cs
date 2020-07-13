@@ -13,5 +13,6 @@ namespace Infrastructure.Database.Interfaces
         Task<List<T>> GetAllByPostIdAsync(int id);
         void Remove(T entity);
         bool Exist(int id);
+        bool isExist(int postId, string userId);
     }
 }

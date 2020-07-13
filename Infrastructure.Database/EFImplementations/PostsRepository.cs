@@ -20,12 +20,12 @@ namespace Infrastructure.Database.EFImplementations
 
         public Task<Post> GetAsync(int? id)
         {
-            return _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+            return _context.Posts.Include(p=>p.Likes).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public Task<List<Post>> GetAllAsync()
         {
-            return _context.Posts.Include(c => c.Comments).Include(u => u.User).ToListAsync();
+            return _context.Posts.Include(c => c.Comments).Include(u => u.User).Include(l => l.Likes).ToListAsync();
         }
 
         public ValueTask<EntityEntry<Post>> CreateAsync(Post entity)
@@ -39,8 +39,6 @@ namespace Infrastructure.Database.EFImplementations
             var post = _context.Posts.FindAsync(entity.Id);
             if (post != null)
             {
-                post.Result.CommentCount = entity.CommentCount;
-                post.Result.LikeCount = entity.LikeCount;
                 post.Result.PhotoPath = entity.PhotoPath;
             }
             return post;
@@ -59,6 +57,11 @@ namespace Infrastructure.Database.EFImplementations
         public bool Exist(int id)
         {
             return _context.Comments.Any(e => e.Id == id);
+        }
+
+        public bool isExist(int postId, string userId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

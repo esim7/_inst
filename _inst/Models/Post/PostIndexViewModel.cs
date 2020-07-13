@@ -10,8 +10,8 @@ namespace _inst.Models.Post
     {
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
-        public int LikeCount { get; set; }
         public ICollection<Domain.Model.Comment> Comments { get; set; }
+        public ICollection<Domain.Model.Like> Likes { get; set; }
         public string PhotoPath { get; set; }
         public string Data { get; set; }
 

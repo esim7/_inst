@@ -35,29 +35,6 @@ namespace _inst.Controllers
             return View(viewModel);
         }
 
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(int id, CommentCreateViewModel commentCreateViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = _userManager.Users.FirstOrDefault(u => u.Email == HttpContext.User.Identity.Name);
-        //        commentCreateViewModel.PostId = id;
-        //        commentCreateViewModel.CommentAuthor = user?.Name;
-
-        //        var comment = _map.Map<Comment>(commentCreateViewModel);
-        //        await _uow.CommentRepository.CreateAsync(comment);
-        //        await _uow.Save();
-        //        return RedirectToAction("Index", "Posts");
-        //    }
-        //    return View(commentCreateViewModel);
-        //}
-     
         [HttpPost]
         public async Task<Comment> CreateComment(CommentCreateViewModel comment)
         {

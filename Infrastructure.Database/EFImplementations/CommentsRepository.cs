@@ -58,5 +58,10 @@ namespace Infrastructure.Database.EFImplementations
         {
             return _context.Comments.Any(e => e.Id == id);
         }
+
+        public bool isExist(int postId, string userId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
